@@ -59,143 +59,227 @@ class _UploadPhotoWidgetState extends State<UploadPhotoWidget> {
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: SafeArea(
           top: true,
-          child: ListView(
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            children: [
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.chevron_left_rounded,
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      size: 36.0,
-                    ),
-                    Text(
-                      'If you want to try on the dress, you need to add your photo.',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.inter(
-                              fontWeight: FontWeight.w600,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontStyle,
+          child: Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 20.0),
+            child: ListView(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Align(
+                        alignment: AlignmentDirectional(-1.0, 0.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                context.safePop();
+                              },
+                              child: Icon(
+                                Icons.chevron_left_rounded,
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                size: 36.0,
+                              ),
                             ),
-                            fontSize: 24.0,
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.w600,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .fontStyle,
-                          ),
-                    ),
-                    InkWell(
-                      splashColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () async {
-                        final selectedMedia =
-                            await selectMediaWithSourceBottomSheet(
-                          context: context,
-                          storageFolderPath: 'tryons',
-                          maxWidth: 1024.00,
-                          maxHeight: 1024.00,
-                          imageQuality: 80,
-                          allowPhoto: true,
-                        );
-                        if (selectedMedia != null &&
-                            selectedMedia.every((m) =>
-                                validateFileFormat(m.storagePath, context))) {
-                          safeSetState(() =>
-                              _model.isDataUploading_uploadData19z = true);
-                          var selectedUploadedFiles = <FFUploadedFile>[];
+                            Text(
+                              'If you want to try on the dress, you need to add your photo.',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    font: GoogleFonts.inter(
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    fontSize: 24.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                            ),
+                          ].divide(SizedBox(height: 16.0)),
+                        ),
+                      ),
+                      InkWell(
+                        splashColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () async {
+                          final selectedMedia =
+                              await selectMediaWithSourceBottomSheet(
+                            context: context,
+                            storageFolderPath: 'tryons',
+                            maxWidth: 1024.00,
+                            maxHeight: 1024.00,
+                            imageQuality: 80,
+                            allowPhoto: true,
+                          );
+                          if (selectedMedia != null &&
+                              selectedMedia.every((m) =>
+                                  validateFileFormat(m.storagePath, context))) {
+                            safeSetState(() =>
+                                _model.isDataUploading_uploadData19z = true);
+                            var selectedUploadedFiles = <FFUploadedFile>[];
 
-                          var downloadUrls = <String>[];
-                          try {
-                            selectedUploadedFiles = selectedMedia
-                                .map((m) => FFUploadedFile(
-                                      name: m.storagePath.split('/').last,
-                                      bytes: m.bytes,
-                                      height: m.dimensions?.height,
-                                      width: m.dimensions?.width,
-                                      blurHash: m.blurHash,
-                                      originalFilename: m.originalFilename,
-                                    ))
-                                .toList();
+                            var downloadUrls = <String>[];
+                            try {
+                              selectedUploadedFiles = selectedMedia
+                                  .map((m) => FFUploadedFile(
+                                        name: m.storagePath.split('/').last,
+                                        bytes: m.bytes,
+                                        height: m.dimensions?.height,
+                                        width: m.dimensions?.width,
+                                        blurHash: m.blurHash,
+                                        originalFilename: m.originalFilename,
+                                      ))
+                                  .toList();
 
-                            downloadUrls = await uploadSupabaseStorageFiles(
-                              bucketName: 'user-photos',
-                              selectedFiles: selectedMedia,
-                            );
-                          } finally {
-                            _model.isDataUploading_uploadData19z = false;
+                              downloadUrls = await uploadSupabaseStorageFiles(
+                                bucketName: 'user-photos',
+                                selectedFiles: selectedMedia,
+                              );
+                            } finally {
+                              _model.isDataUploading_uploadData19z = false;
+                            }
+                            if (selectedUploadedFiles.length ==
+                                    selectedMedia.length &&
+                                downloadUrls.length == selectedMedia.length) {
+                              safeSetState(() {
+                                _model.uploadedLocalFile_uploadData19z =
+                                    selectedUploadedFiles.first;
+                                _model.uploadedFileUrl_uploadData19z =
+                                    downloadUrls.first;
+                              });
+                            } else {
+                              safeSetState(() {});
+                              return;
+                            }
                           }
-                          if (selectedUploadedFiles.length ==
-                                  selectedMedia.length &&
-                              downloadUrls.length == selectedMedia.length) {
-                            safeSetState(() {
-                              _model.uploadedLocalFile_uploadData19z =
-                                  selectedUploadedFiles.first;
-                              _model.uploadedFileUrl_uploadData19z =
-                                  downloadUrls.first;
-                            });
-                          } else {
-                            safeSetState(() {});
-                            return;
-                          }
-                        }
 
-                        FFAppState().userphotourl =
-                            _model.uploadedFileUrl_uploadData19z;
-                        safeSetState(() {});
-                        _model.apiResultu40 = await FashntryonCall.call(
-                          modelImage: FFAppState().userphotourl,
-                          garmentImage: widget!.dressimageurl,
-                        );
-
-                        if ((_model.apiResultu40?.succeeded ?? true)) {
-                          FFAppState().tryonresulturl = getJsonField(
-                            (_model.apiResultu40?.jsonBody ?? ''),
-                            r'''$.result_url''',
-                          ).toString();
+                          FFAppState().userphotourl =
+                              _model.uploadedFileUrl_uploadData19z;
                           safeSetState(() {});
-
-                          context.pushNamed(TryOnResultWidget.routeName);
-                        }
-
-                        safeSetState(() {});
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 75.97,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFB9BBC8),
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: Icon(
-                          Icons.add_a_photo_outlined,
-                          color: FlutterFlowTheme.of(context).primaryText,
-                          size: 36.0,
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: 452.29,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFB9BBC8),
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          child: Align(
+                            alignment: AlignmentDirectional(0.0, 0.0),
+                            child: Stack(
+                              children: [
+                                if (FFAppState().userphotourl != null &&
+                                    FFAppState().userphotourl != '')
+                                  Align(
+                                    alignment: AlignmentDirectional(0.0, 0.0),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      child: Image.network(
+                                        '${FFAppState().userphotourl}',
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                Align(
+                                  alignment: AlignmentDirectional(0.0, 0.0),
+                                  child: Icon(
+                                    Icons.add_a_photo_outlined,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    size: 24.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(30.0),
-                      child: Image.network(
-                        '${FFAppState().userphotourl}',
-                        width: double.infinity,
-                        height: 345.63,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ].divide(SizedBox(height: 24.0)),
+                      if (FFAppState().userphotourl != null &&
+                          FFAppState().userphotourl != '')
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            FFButtonWidget(
+                              onPressed: () async {
+                                _model.apiResulturk = await FashntryonCall.call(
+                                  modelImage: FFAppState().userphotourl,
+                                  garmentImage: widget!.dressimageurl,
+                                );
+
+                                if ((_model.apiResulturk?.succeeded ?? true)) {
+                                  FFAppState().tryonresulturl = getJsonField(
+                                    (_model.apiResulturk?.jsonBody ?? ''),
+                                    r'''$.result_url''',
+                                  ).toString();
+                                  safeSetState(() {});
+
+                                  context
+                                      .pushNamed(TryOnResultWidget.routeName);
+                                }
+
+                                safeSetState(() {});
+                              },
+                              text: 'Try on',
+                              options: FFButtonOptions(
+                                width: 352.23,
+                                height: 50.0,
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    16.0, 0.0, 16.0, 0.0),
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 0.0),
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .override(
+                                      font: GoogleFonts.interTight(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                      color: Colors.white,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                    ),
+                                elevation: 0.0,
+                                borderRadius: BorderRadius.circular(100.0),
+                              ),
+                            ),
+                          ],
+                        ),
+                    ].divide(SizedBox(height: 50.0)),
+                  ),
                 ),
-              ),
-            ].divide(SizedBox(height: 24.0)),
+              ].divide(SizedBox(height: 100.0)),
+            ),
           ),
         ),
       ),

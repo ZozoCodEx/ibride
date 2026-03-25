@@ -19,8 +19,8 @@ class UploadPhotoModel extends FlutterFlowModel<UploadPhotoWidget> {
       FFUploadedFile(bytes: Uint8List.fromList([]), originalFilename: '');
   String uploadedFileUrl_uploadData19z = '';
 
-  // Stores action output result for [Backend Call - API (fashntryon)] action in Container widget.
-  ApiCallResponse? apiResultu40;
+  // Stores action output result for [Backend Call - API (fashntryon)] action in Button widget.
+  ApiCallResponse? apiResulturk;
 
   @override
   void initState(BuildContext context) {}

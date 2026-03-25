@@ -56,37 +56,61 @@ class _DressPageWidgetState extends State<DressPageWidget> {
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         body: SafeArea(
           top: true,
-          child: ListView(
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            children: [
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(30.0),
-                      child: Image.network(
-                        '${widget!.dressimageurl}',
-                        width: double.infinity,
-                        height: 547.81,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Align(
-                      alignment: AlignmentDirectional(-1.0, 0.0),
-                      child: Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 18.0, 0.0, 0.0),
-                        child: Text(
-                          valueOrDefault<String>(
-                            widget!.dressname,
-                            'Dressname',
+          child: Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 20.0),
+            child: ListView(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              children: [
+                Align(
+                  alignment: AlignmentDirectional(-1.0, 0.0),
+                  child: Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Align(
+                          alignment: AlignmentDirectional(-1.0, 0.0),
+                          child: InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              context.safePop();
+                            },
+                            child: Icon(
+                              Icons.chevron_left_rounded,
+                              color: FlutterFlowTheme.of(context).primaryText,
+                              size: 36.0,
+                            ),
                           ),
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(30.0),
+                          child: Image.network(
+                            '${widget!.dressimageurl}',
+                            width: double.infinity,
+                            height: 530.04,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Align(
+                          alignment: AlignmentDirectional(-1.0, 0.0),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 18.0, 0.0, 0.0),
+                            child: Text(
+                              valueOrDefault<String>(
+                                widget!.dressname,
+                                'Dressname',
+                              ),
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
                                     font: GoogleFonts.inter(
                                       fontWeight: FontWeight.w600,
                                       fontStyle: FlutterFlowTheme.of(context)
@@ -100,35 +124,36 @@ class _DressPageWidgetState extends State<DressPageWidget> {
                                         .bodyMedium
                                         .fontStyle,
                                   ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 36.0, 0.0, 0.0),
-                      child: FFButtonWidget(
-                        onPressed: () async {
-                          context.pushNamed(
-                            UploadPhotoWidget.routeName,
-                            queryParameters: {
-                              'dressimageurl': serializeParam(
-                                widget!.dressimageurl,
-                                ParamType.String,
-                              ),
-                            }.withoutNulls,
-                          );
-                        },
-                        text: 'TRY ON',
-                        options: FFButtonOptions(
-                          width: double.infinity,
-                          height: 60.0,
+                        Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
-                              16.0, 20.0, 16.0, 20.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          color: Color(0xFF18181C),
-                          textStyle:
-                              FlutterFlowTheme.of(context).titleSmall.override(
+                              0.0, 36.0, 0.0, 0.0),
+                          child: FFButtonWidget(
+                            onPressed: () async {
+                              context.pushNamed(
+                                UploadPhotoWidget.routeName,
+                                queryParameters: {
+                                  'dressimageurl': serializeParam(
+                                    widget!.dressimageurl,
+                                    ParamType.String,
+                                  ),
+                                }.withoutNulls,
+                              );
+                            },
+                            text: 'TRY ON',
+                            options: FFButtonOptions(
+                              width: double.infinity,
+                              height: 60.0,
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  16.0, 20.0, 16.0, 20.0),
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 0.0, 0.0),
+                              color: Color(0xFF18181C),
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .override(
                                     font: GoogleFonts.interTight(
                                       fontWeight: FlutterFlowTheme.of(context)
                                           .titleSmall
@@ -146,15 +171,17 @@ class _DressPageWidgetState extends State<DressPageWidget> {
                                         .titleSmall
                                         .fontStyle,
                                   ),
-                          elevation: 0.0,
-                          borderRadius: BorderRadius.circular(2100.0),
+                              elevation: 0.0,
+                              borderRadius: BorderRadius.circular(2100.0),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ].divide(SizedBox(height: 24.0)),
+              ].divide(SizedBox(height: 24.0)),
+            ),
           ),
         ),
       ),
