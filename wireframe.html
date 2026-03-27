@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iBride — Wireframe</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  /* iPhone frame */
+  .phone-frame {
+    width: 375px;
+    height: 812px;
+    background: #F1F4F8;
+    border-radius: 40px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    border: 8px solid #1a1a1a;
+  }
+
+  /* Screens */
+  .screen {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0; left: 0;
+    overflow-y: auto;
+    background: #F1F4F8;
+  }
+  .screen.active { display: flex; flex-direction: column; }
+  .screen::-webkit-scrollbar { display: none; }
+
+  /* Colors */
+  :root {
+    --primary: #4B39EF;
+    --secondary: #39D2C0;
+    --bg: #F1F4F8;
+    --text: #14181B;
+    --btn: #18181C;
+    --white: #FFFFFF;
+    --gray: #B9BBC8;
+    --error: #E74C3C;
+  }
+
+  /* Common */
+  .pad { padding: 20px; }
+  .back-btn {
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 28px; color: var(--text);
+    border: none; background: none;
+  }
+  .btn-primary {
+    width: 100%; height: 56px;
+    background: var(--btn); color: var(--white);
+    border: none; border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px; font-weight: 600;
+    cursor: pointer; transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-primary:active { opacity: 0.7; }
+  .btn-outline {
+    width: 100%; height: 56px;
+    background: transparent; color: var(--text);
+    border: 2px solid var(--text); border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px; font-weight: 600;
+    cursor: pointer; transition: opacity 0.2s;
+  }
+  .btn-outline:hover { opacity: 0.7; }
+  .title { font-size: 24px; font-weight: 600; color: var(--text); }
+  .subtitle { font-size: 16px; font-weight: 400; color: #57636C; line-height: 1.5; }
+
+  /* ===== SCREEN 1: SPLASH ===== */
+  #splash {
+    background: linear-gradient(135deg, #4B39EF 0%, #6C5CE7 50%, #39D2C0 100%);
+    justify-content: center; align-items: center; text-align: center;
+  }
+  #splash .logo {
+    font-size: 48px; font-weight: 700; color: var(--white);
+    letter-spacing: -1px; margin-bottom: 12px;
+  }
+  #splash .tagline {
+    font-size: 16px; color: rgba(255,255,255,0.85);
+    margin-bottom: 60px; padding: 0 40px; line-height: 1.5;
+  }
+  #splash .btn-primary {
+    width: 200px; background: var(--white); color: var(--primary);
+  }
+
+  /* ===== SCREEN 2: CATALOG ===== */
+  #catalog .header {
+    padding: 20px 20px 12px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  #catalog .header-title { font-size: 28px; font-weight: 700; color: var(--text); }
+  #catalog .dress-list { padding: 0 20px 20px; flex: 1; }
+  .dress-card {
+    margin-bottom: 24px; cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .dress-card:active { transform: scale(0.98); }
+  .dress-card-placeholder {
+    width: 100%; height: 280px; border-radius: 24px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: #999;
+  }
+  .dress-card-img {
+    width: 100%; height: 280px; border-radius: 24px;
+    object-fit: cover; display: block;
+  }
+  .dress-card-name {
+    font-size: 20px; font-weight: 600; color: var(--text);
+    margin-top: 12px;
+  }
+  .dress-card-price {
+    font-size: 14px; color: #57636C; margin-top: 4px;
+  }
+
+  /* ===== SCREEN 3: DRESS DETAIL ===== */
+  #dress-detail .dress-hero-placeholder {
+    width: calc(100% - 40px); margin: 0 auto;
+    height: 480px; border-radius: 24px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: #999;
+  }
+  #dress-detail .dress-hero-img {
+    width: calc(100% - 40px); margin: 0 auto;
+    height: 480px; border-radius: 24px;
+    object-fit: cover; display: block;
+  }
+  #dress-detail .dress-info { padding: 16px 20px 0; }
+  #dress-detail .dress-actions { padding: 20px; margin-top: auto; }
+
+  /* ===== SCREEN 4: UPLOAD ===== */
+  .upload-zone {
+    width: 100%; height: 380px;
+    background: var(--gray); border-radius: 24px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    cursor: pointer; transition: background 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .upload-zone:hover { background: #a8aab8; }
+  .upload-zone .upload-icon { font-size: 48px; color: var(--text); margin-bottom: 12px; }
+  .upload-zone .upload-label { font-size: 14px; color: #57636C; }
+  .upload-zone.has-photo .upload-icon { display: none; }
+  .upload-zone.has-photo .upload-label { display: none; }
+  .upload-zone .uploaded-state { display: none; text-align: center; }
+  .upload-zone.has-photo .uploaded-state { display: block; }
+  .upload-zone.has-photo { background: transparent; }
+  .upload-zone .bride-preview {
+    display: none; width: 100%; height: 100%;
+    object-fit: cover; border-radius: 24px;
+    position: absolute; top: 0; left: 0;
+  }
+  .upload-zone.has-photo .bride-preview { display: block; }
+  .upload-actions { padding: 20px; margin-top: auto; }
+
+  /* Loading overlay */
+  #loading-overlay {
+    display: none;
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(241,244,248,0.95);
+    flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 10;
+  }
+  #loading-overlay.active { display: flex; }
+  .spinner {
+    width: 48px; height: 48px;
+    border: 4px solid #e0e0e0;
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { font-size: 18px; font-weight: 600; color: var(--text); }
+  .loading-sub { font-size: 14px; color: #57636C; margin-top: 8px; }
+
+  /* ===== SCREEN 5: RESULT ===== */
+  #result { justify-content: space-between; }
+  .result-img-placeholder {
+    width: calc(100% - 40px); margin: 0 auto;
+    height: 460px; border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: #999;
+  }
+  .result-img {
+    width: calc(100% - 40px); margin: 0 auto;
+    height: 460px; border-radius: 16px;
+    object-fit: cover; display: block;
+  }
+  .result-actions { padding: 12px 20px 20px; display: flex; flex-direction: column; gap: 10px; }
+  .branding {
+    text-align: center; font-size: 12px; color: #999;
+    padding: 8px 0;
+  }
+
+  /* ===== SCREEN 6: ERROR ===== */
+  #error-screen {
+    justify-content: center; align-items: center; text-align: center;
+  }
+  #error-screen .error-icon { font-size: 64px; margin-bottom: 20px; }
+  #error-screen .error-title { font-size: 22px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  #error-screen .error-msg { font-size: 14px; color: #57636C; margin-bottom: 32px; padding: 0 40px; line-height: 1.5; }
+  #error-screen .btn-primary { width: 200px; }
+
+  /* Share modal */
+  .modal-overlay {
+    display: none; position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    z-index: 20; align-items: flex-end;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal-sheet {
+    width: 100%; background: var(--white);
+    border-radius: 24px 24px 0 0;
+    padding: 24px 20px 32px;
+  }
+  .modal-sheet h3 { font-size: 18px; font-weight: 600; margin-bottom: 20px; color: var(--text); }
+  .modal-sheet .share-options { display: flex; flex-direction: column; gap: 12px; }
+  .share-option {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px; border-radius: 16px;
+    background: var(--bg); cursor: pointer;
+    border: none; width: 100%;
+    font-family: 'Inter', sans-serif; font-size: 15px;
+    color: var(--text); font-weight: 500;
+    transition: background 0.2s;
+  }
+  .share-option:hover { background: #e0e3e8; }
+  .share-option .share-icon { font-size: 24px; }
+  .toast {
+    display: none; position: absolute; bottom: 40px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--btn); color: var(--white);
+    padding: 12px 24px; border-radius: 100px;
+    font-size: 14px; font-weight: 500; z-index: 30;
+  }
+  .toast.active { display: block; animation: fadeInOut 2s ease; }
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+  }
+
+  /* Breadcrumb navigation */
+  .breadcrumbs {
+    display: flex; gap: 4px; align-items: center;
+    flex-wrap: wrap; justify-content: center;
+    padding: 12px 16px;
+    background: var(--white);
+    border-radius: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    max-width: 500px;
+  }
+  .crumb {
+    padding: 6px 14px; border-radius: 100px;
+    font-size: 12px; font-weight: 500;
+    cursor: pointer; border: none;
+    background: var(--bg); color: #57636C;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.2s;
+  }
+  .crumb:hover { background: #dde0e6; }
+  .crumb.active { background: var(--primary); color: var(--white); }
+  .crumb-sep { color: #ccc; font-size: 12px; }
+  .wireframe-wrapper {
+    display: flex; flex-direction: column; align-items: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="wireframe-wrapper">
+
+<!-- Breadcrumb navigation -->
+<div class="breadcrumbs" id="breadcrumbs">
+  <button class="crumb active" onclick="goTo('splash')">Splash</button>
+  <span class="crumb-sep">›</span>
+  <button class="crumb" onclick="goTo('catalog')">Catalog</button>
+  <span class="crumb-sep">›</span>
+  <button class="crumb" onclick="goTo('dress-detail')">Dress</button>
+  <span class="crumb-sep">›</span>
+  <button class="crumb" onclick="goTo('upload')">Upload</button>
+  <span class="crumb-sep">›</span>
+  <button class="crumb" onclick="goTo('result')">Result</button>
+  <span class="crumb-sep">|</span>
+  <button class="crumb" onclick="goTo('error-screen')">Error</button>
+</div>
+
+<div class="phone-frame" id="app">
+
+  <!-- SCREEN 1: SPLASH -->
+  <div class="screen active" id="splash">
+    <div class="logo">iBride</div>
+    <div class="tagline">Find your dream wedding dress.<br>Try it on. From your couch.</div>
+    <button class="btn-primary" onclick="goTo('catalog')">Let's Start</button>
+  </div>
+
+  <!-- SCREEN 2: CATALOG -->
+  <div class="screen" id="catalog">
+    <div class="header">
+      <div class="header-title">iBride</div>
+    </div>
+    <div class="dress-list">
+      <div class="dress-card" onclick="selectDress('Anita Ekberg', 'https://innocentia.com/cdn/shop/files/INL2431AnitaEkberg-DolceVitaCollectionbyInnocentiaDivina_4.jpg?v=1715770370&width=800', 'Innocentia Dolce Vita')">
+        <img class="dress-card-img" src="https://innocentia.com/cdn/shop/files/INL2431AnitaEkberg-DolceVitaCollectionbyInnocentiaDivina_4.jpg?v=1715770370&width=800" alt="Anita Ekberg">
+        <div class="dress-card-name">Anita Ekberg</div>
+        <div class="dress-card-price">Innocentia Dolce Vita</div>
+      </div>
+      <div class="dress-card" onclick="selectDress('Gabriella Genta', 'https://innocentia.com/cdn/shop/files/INL2432GabriellaGenta-DolceVitaCollectionbyInnocentiaDivina.jpg?v=1715770414&width=800', 'Innocentia Dolce Vita')">
+        <img class="dress-card-img" src="https://innocentia.com/cdn/shop/files/INL2432GabriellaGenta-DolceVitaCollectionbyInnocentiaDivina.jpg?v=1715770414&width=800" alt="Gabriella Genta">
+        <div class="dress-card-name">Gabriella Genta</div>
+        <div class="dress-card-price">Innocentia Dolce Vita</div>
+      </div>
+      <div class="dress-card" onclick="selectDress('Laura Betti', 'https://innocentia.com/cdn/shop/files/INL2434LauraBetti-DolceVitaCollectionbyInnocentiaDivina_4.jpg?v=1715280871&width=800', 'Innocentia Dolce Vita')">
+        <img class="dress-card-img" src="https://innocentia.com/cdn/shop/files/INL2434LauraBetti-DolceVitaCollectionbyInnocentiaDivina_4.jpg?v=1715280871&width=800" alt="Laura Betti">
+        <div class="dress-card-name">Laura Betti</div>
+        <div class="dress-card-price">Innocentia Dolce Vita</div>
+      </div>
+      <div class="dress-card" onclick="selectDress('Nadia Gray', 'https://innocentia.com/cdn/shop/files/INL2438NadiaGray-DolceVitabyInnocentiaDivina_5.jpg?v=1715771144&width=800', 'Innocentia Dolce Vita')">
+        <img class="dress-card-img" src="https://innocentia.com/cdn/shop/files/INL2438NadiaGray-DolceVitabyInnocentiaDivina_5.jpg?v=1715771144&width=800" alt="Nadia Gray">
+        <div class="dress-card-name">Nadia Gray</div>
+        <div class="dress-card-price">Innocentia Dolce Vita</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: DRESS DETAIL -->
+  <div class="screen" id="dress-detail">
+    <div class="pad" style="padding-bottom: 0;">
+      <button class="back-btn" onclick="goTo('catalog')" aria-label="Back">&#8249;</button>
+    </div>
+    <img class="dress-hero-img" id="detail-hero-img" src="assets/images/demo-dress.webp" alt="Dress" style="margin-top: 12px; display: none;">
+    <div class="dress-hero-placeholder" id="detail-hero" style="background: linear-gradient(135deg, #f5e6ef, #d4a8c0); margin-top: 12px;">
+      <span id="detail-hero-label">Dress Photo</span>
+    </div>
+    <div class="dress-info">
+      <div class="title" id="detail-name">Pronovias Elara</div>
+      <div class="dress-card-price" style="margin-top: 4px;" id="detail-price">from 2,200 EUR</div>
+    </div>
+    <div class="dress-actions">
+      <button class="btn-primary" onclick="goTo('upload')">TRY ON</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: UPLOAD PHOTO -->
+  <div class="screen" id="upload">
+    <div class="pad" style="padding-bottom: 0;">
+      <button class="back-btn" onclick="goTo('dress-detail')" aria-label="Back">&#8249;</button>
+      <div class="title" style="margin-top: 12px;">Upload your photo to try on the dress</div>
+      <div class="subtitle" style="margin-top: 8px;">Full-body photo works best. We'll show you in the dress in seconds.</div>
+    </div>
+    <div class="pad" style="flex: 1;">
+      <div class="upload-zone" id="upload-zone" onclick="simulateUpload()">
+        <div class="upload-icon">&#128247;</div>
+        <div class="upload-label">Tap to add your photo</div>
+        <img class="bride-preview" src="assets/images/demo-bride.jpg" alt="Your photo">
+      </div>
+    </div>
+    <div class="upload-actions" id="upload-actions" style="display: none;">
+      <button class="btn-primary" onclick="simulateTryOn()">Try On</button>
+      <button class="btn-outline" style="margin-top: 10px;" onclick="resetUpload()">Change photo</button>
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="loading-overlay">
+      <div class="spinner"></div>
+      <div class="loading-text">Creating your look...</div>
+      <div class="loading-sub">This usually takes 10-15 seconds</div>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: RESULT -->
+  <div class="screen" id="result">
+    <div class="pad" style="padding-bottom: 0;">
+      <div class="title">Your result is ready!</div>
+    </div>
+    <img class="result-img" src="assets/images/demo-result.jpg" alt="Try-on result" style="margin-top: 12px;">
+    <div class="result-actions">
+      <button class="btn-primary" onclick="openShareModal()">Share</button>
+      <button class="btn-outline" onclick="showToast('Image saved!')">Download</button>
+      <button class="btn-outline" onclick="goTo('catalog')" style="border-color: var(--primary); color: var(--primary);">Try another dress</button>
+      <div class="branding">Powered by iBride</div>
+    </div>
+  </div>
+
+  <!-- SCREEN 6: ERROR -->
+  <div class="screen" id="error-screen">
+    <div class="error-icon">&#9888;&#65039;</div>
+    <div class="error-title">Something went wrong</div>
+    <div class="error-msg">We couldn't create your try-on. Please check your connection and try again.</div>
+    <button class="btn-primary" onclick="goTo('upload')">Try Again</button>
+  </div>
+
+  <!-- SHARE MODAL -->
+  <div class="modal-overlay" id="share-modal" onclick="closeShareModal(event)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <h3>Share your look</h3>
+      <div class="share-options">
+        <button class="share-option" onclick="shareAction('WhatsApp')">
+          <span class="share-icon">&#128172;</span>
+          Send via WhatsApp
+        </button>
+        <button class="share-option" onclick="shareAction('Instagram')">
+          <span class="share-icon">&#128248;</span>
+          Share to Instagram Stories
+        </button>
+        <button class="share-option" onclick="shareAction('Copy link')">
+          <span class="share-icon">&#128279;</span>
+          Copy link
+        </button>
+        <button class="share-option" onclick="closeShareModal()">
+          <span class="share-icon">&#10005;</span>
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+</div>
+
+</div><!-- /wireframe-wrapper -->
+
+<script>
+  // State
+  var currentScreen = 'splash';
+  var photoUploaded = false;
+
+  // Screen-to-breadcrumb mapping
+  var screenToCrumb = {
+    'splash': 0, 'catalog': 1, 'dress-detail': 2,
+    'upload': 3, 'result': 4, 'error-screen': 5
+  };
+
+  // Navigation
+  function goTo(screenId) {
+    var screens = document.querySelectorAll('.screen');
+    for (var i = 0; i < screens.length; i++) {
+      screens[i].classList.remove('active');
+    }
+    document.getElementById(screenId).classList.add('active');
+    currentScreen = screenId;
+    document.getElementById(screenId).scrollTop = 0;
+    // Update breadcrumbs
+    var crumbs = document.querySelectorAll('.crumb');
+    for (var j = 0; j < crumbs.length; j++) {
+      crumbs[j].classList.remove('active');
+    }
+    var idx = screenToCrumb[screenId];
+    if (idx !== undefined) {
+      crumbs[idx].classList.add('active');
+    }
+  }
+
+  // Select dress from catalog
+  function selectDress(name, imageOrColor, price) {
+    document.getElementById('detail-name').textContent = name;
+    document.getElementById('detail-price').textContent = price;
+    var heroImg = document.getElementById('detail-hero-img');
+    var heroPlaceholder = document.getElementById('detail-hero');
+    // Check if it's an image path or a color
+    if (imageOrColor.charAt(0) !== '#') {
+      heroImg.src = imageOrColor;
+      heroImg.style.display = 'block';
+      heroPlaceholder.style.display = 'none';
+    } else {
+      heroImg.style.display = 'none';
+      heroPlaceholder.style.display = 'flex';
+      document.getElementById('detail-hero-label').textContent = name;
+      var r = parseInt(imageOrColor.slice(1,3), 16);
+      var g = parseInt(imageOrColor.slice(3,5), 16);
+      var b = parseInt(imageOrColor.slice(5,7), 16);
+      var lr = Math.min(255, r + 40);
+      var lg = Math.min(255, g + 40);
+      var lb = Math.min(255, b + 40);
+      var light = 'rgb(' + lr + ',' + lg + ',' + lb + ')';
+      heroPlaceholder.style.background = 'linear-gradient(135deg, ' + light + ', ' + imageOrColor + ')';
+    }
+    goTo('dress-detail');
+  }
+
+  // Upload simulation
+  function simulateUpload() {
+    if (photoUploaded) return;
+    var zone = document.getElementById('upload-zone');
+    zone.classList.add('has-photo');
+    photoUploaded = true;
+    document.getElementById('upload-actions').style.display = 'block';
+  }
+
+  function resetUpload() {
+    var zone = document.getElementById('upload-zone');
+    zone.classList.remove('has-photo');
+    photoUploaded = false;
+    document.getElementById('upload-actions').style.display = 'none';
+  }
+
+  // Try-on simulation
+  function simulateTryOn() {
+    var overlay = document.getElementById('loading-overlay');
+    overlay.classList.add('active');
+
+    // Simulate API call (3 seconds)
+    setTimeout(function() {
+      overlay.classList.remove('active');
+      // Always success in wireframe demo
+      goTo('result');
+      resetUpload();
+    }, 3000);
+  }
+
+  // Share modal
+  function openShareModal() {
+    document.getElementById('share-modal').classList.add('active');
+  }
+
+  function closeShareModal(e) {
+    if (!e || e.target === document.getElementById('share-modal')) {
+      document.getElementById('share-modal').classList.remove('active');
+    }
+  }
+
+  function shareAction(platform) {
+    closeShareModal();
+    showToast('Shared via ' + platform + '!');
+  }
+
+  // Toast
+  function showToast(msg) {
+    var toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.remove('active');
+    void toast.offsetWidth; // reflow for re-animation
+    toast.classList.add('active');
+    setTimeout(function() { toast.classList.remove('active'); }, 2000);
+  }
+</script>
+
+</body>
+</html>
